@@ -14,6 +14,25 @@ function handleNameChange (name){
 }*/
 
 const [studentName, setStudentName] = useState("Student");
+const [students, setStudents] = useState([]);
+
+function handleAddStudent() {
+  const newStudent = {
+    name: studentName,
+    time: new Date().toLocaleTimeString("pt-br", {
+    hour: "2-digit",
+    minute:"2-digit",
+    second: "2-digit",
+    
+    }),
+
+  }
+
+  setStudents([newStudent]);
+
+}
+
+
 
   return (
     <div className='container'> 
@@ -28,10 +47,15 @@ const [studentName, setStudentName] = useState("Student");
 
       />
 
-      <button type="button">Add</button>
+      <button 
+      type="button" onClick={handleAddStudent}>
+        Add</button>
 
-      <Card name="Breno" time="10:10:10" id="01"/>
-      <Card name="Ana" time="11:11:11" id="02"/>
+      {
+        students.map(student => <Card name={student.name} time={student.time} id="01"/>
+      )
+
+      }
     </div>
     )
 }
