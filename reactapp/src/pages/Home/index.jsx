@@ -1,5 +1,5 @@
-
 import './style.css';
+import {Card} from '../../componentes/Card/index'
 
 export function Home() {
 
@@ -9,6 +9,8 @@ export function Home() {
 
       <input type="text" placeholder="Write a name..." />
       <button type="button">Add</button>
+
+      <Card />
     </div>
     )
 }
