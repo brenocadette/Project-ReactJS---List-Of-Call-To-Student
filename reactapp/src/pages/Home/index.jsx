@@ -1,4 +1,4 @@
-import React, {useState} from 'react';// é um hook que permite que nós criemos um estado 
+import React, {useEffect, useState} from 'react';// é um hook que permite que nós criemos um estado 
 
 import './style.css';
 import {Card} from '../../componentes/Card/index'
@@ -15,6 +15,7 @@ function handleNameChange (name){
 
 const [studentName, setStudentName] = useState("Student");
 const [students, setStudents] = useState([]);
+const [user, setUser] = useState({name: "", avatar: ""})
 
 function handleAddStudent() {
   const newStudent = {
@@ -28,16 +29,39 @@ function handleAddStudent() {
 
   }
 
-  setStudents([newStudent]);
+  setStudents(prevState => [...prevState, newStudent]);
 
 }
+//Puxando dados do github
+//Not is possible criate UseEffects with function assync
+useEffect(() => {
+
+  fetch("https://api.github.com/users/brenocadette")
+.then(response => response.json())
+.then(data => {
+  console.log(data);
+  setUser({
+    name: data.name,
+    avatar: data.avatar_url
+  })
+})
+.catch(error => console.log(error))
+
+}, []);
 
 
 
   return (
     <div className='container'> 
-      <h1>List Of Attendance </h1>
-      <h1>Name: {studentName}</h1>
+      <header>
+        <h1>List Of Attendance </h1>
+        <h1>Name: {studentName}</h1>
+        <div>
+          <strong>{user.name}</strong>
+          <img src={user.avatar} alt="" />
+        </div>
+      </header>
+      
 
       <input 
       type="text" 
@@ -52,7 +76,7 @@ function handleAddStudent() {
         Add</button>
 
       {
-        students.map(student => <Card name={student.name} time={student.time} id="01"/>
+        students.map(student => <Card name={student.name} time={student.time} key={student.time}/>
       )
 
       }
